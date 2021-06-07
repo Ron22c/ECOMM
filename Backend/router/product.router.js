@@ -1,6 +1,8 @@
 const express = require('express');
 const Router = express.Router();
 
+const isAuthenticated = require('../middlewires/authenticate');
+
 const { getProducts, 
         createProduct, 
         getProductById, 
@@ -14,7 +16,7 @@ Router.get('/product', getProducts);
 Router.get('/product/:id', getProductById);
 
 Router.route('/admin/product/:id')
-        .put(updateProductById)
-        .delete(deleteProductById);
+        .put(isAuthenticated, updateProductById)
+        .delete(isAuthenticated, deleteProductById);
 
 module.exports = Router;
