@@ -1,6 +1,7 @@
 let userModel = require('../model/user.model');
 let ErrorHandler = require('../utils/ErrorHandler');
 let catchAsyncError = require('../middlewires/catchAsyncError');
+let sendToken = require('../utils/jwt.util');
 
 exports.registerUser = catchAsyncError (async (req, res, next) => {
     let {name, email, password} = req.body;
@@ -43,10 +44,5 @@ exports.loginUser = catchAsyncError( async(req, res, next) => {
         return;
     }
 
-    let token = await user.getJWT();
-
-    res.status(200).json({
-        success: true,
-        token
-    })
+    sendToken(user, 200, res);
 })
